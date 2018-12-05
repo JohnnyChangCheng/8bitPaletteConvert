@@ -4,7 +4,7 @@
 #include <limits.h>
 #include <cstring>
 
-#include "2600palette.h"
+#include "palette.h"
 
 typedef struct __attribute__((packed)){
     uint8_t r;
@@ -75,9 +75,9 @@ int* Palette_compare(Image_t* src){
 		for(int j = 0 ; j < 128; ++j)
 		{
 
-			int r = src->palette[i].r - Atari2600Palette[j].r;
-			int g = src->palette[i].g - Atari2600Palette[j].g;
-			int b = src->palette[i].b - Atari2600Palette[j].b;
+			int r = src->palette[i].r - Palette[j].r;
+			int g = src->palette[i].g - Palette[j].g;
+			int b = src->palette[i].b - Palette[j].b;
 
 			int dist = r*r + b*b + g*g;
 
@@ -95,9 +95,9 @@ void SetPalette(Image_t *src,int *mapper){
     pixel_t* palette= new pixel_t[256];
     memset(palette,0,sizeof(pixel_t)*256);
     for(int i =0 ;i<128;i++){
-        palette[i<<1].r = Atari2600Palette[i].r;
-        palette[i<<1].g = Atari2600Palette[i].g;
-        palette[i<<1].b = Atari2600Palette[i].b;
+        palette[i<<1].r = Palette[i].r;
+        palette[i<<1].g = Palette[i].g;
+        palette[i<<1].b = Palette[i].b;
     }
     for(int i =0 ;i <src->length_image;i++ ){
         src->container[i]= mapper[src->container[i]];
@@ -113,6 +113,7 @@ void SetPalette(Image_t *src,int *mapper){
 int main(int argc ,char* argv[]){
     Image_t src_image;
     std::string filename(argv[1]);
+    std::string outfilename(argv[2]);
     src_image.Parser(filename);
     std::cout << "BMP Format bit : "<<src_image.bmp_info->biBitCount<<std::endl;
     std::cout << "BMP FILE SIZE : "<<src_image.bmp_header->bfSize<<std::endl;
@@ -122,7 +123,7 @@ int main(int argc ,char* argv[]){
  
  
     std::fstream of;
-    of.open("test.bmp",std::fstream::out | std::fstream::binary);
+    of.open(outfilename,std::fstream::out | std::fstream::binary);
     of.write((char*)src_image.bmp_header,sizeof(BITMAPFILEHEADER_t));
     of.write((char*)src_image.bmp_info,sizeof(BITMAPINFOHEADER_t));
     of.write((char*)src_image.palette,sizeof(pixel_t)*src_image.bmp_info->biClrUsed);

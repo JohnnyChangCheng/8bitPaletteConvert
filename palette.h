@@ -3,7 +3,7 @@ typedef  struct {
 	unsigned char g;
 	unsigned char b;
 } Palette_t;
-Palette_t Atari2600Palette[] = {
+Palette_t Palette[] = {
 		{ 0x00, 0x00, 0x00 }, // 00
 		{ 0x22, 0x22, 0x22 }, // 02
 		{ 0x44, 0x44, 0x44 }, // 04
