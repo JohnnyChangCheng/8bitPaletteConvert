@@ -1,4 +1,4 @@
-CXXFLAGS := -std=c++11 -I./
+CXXFLAGS := -std=c++11 -I./ -g
 TARGET = bmp_convert
 all: ${TARGET}
 	g++ -o ${TARGET} bmp_convert.cpp ${CXXFLAGS}
